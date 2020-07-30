@@ -10,7 +10,7 @@ class Token
     const Operator = "operator";
     const LeftParenthesis = "LP";
     const RightParenthesis = "RP";
-    const Function = "function";
+    const Func = "function";
     const ParamSeparator = "separator";
     const String = "string";
     const Space = "space";

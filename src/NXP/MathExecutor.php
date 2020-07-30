@@ -65,10 +65,10 @@ class MathExecutor
      * Set default operands and functions
      * @throws ReflectionException
      */
-    protected function addDefaults() : void
+    protected function addDefaults()
     {
         foreach ($this->defaultOperators() as $name => $operator) {
-            [$callable, $priority, $isRightAssoc] = $operator;
+            list($callable, $priority, $isRightAssoc) = $operator;
             $this->addOperator(new Operator($name, $isRightAssoc, $priority, $callable));
         }
         foreach ($this->defaultFunctions() as $name => $callable) {
@@ -82,7 +82,7 @@ class MathExecutor
      *
      * @return array of class names
      */
-    protected function defaultOperators() : array
+    protected function defaultOperators()
     {
         return [
             '+' => [
@@ -196,7 +196,7 @@ class MathExecutor
      * @param Operator $operator
      * @return MathExecutor
      */
-    public function addOperator(Operator $operator) : self
+    public function addOperator(Operator $operator)
     {
         $this->operators[$operator->operator] = $operator;
         return $this;
@@ -208,7 +208,7 @@ class MathExecutor
      *
      * @return array
      */
-    protected function defaultFunctions() : array
+    protected function defaultFunctions()
     {
         return [
             'abs' => function ($arg) {
@@ -356,7 +356,7 @@ class MathExecutor
      * @throws Exception\UnknownOperatorException
      * @throws Exception\UnknownVariableException
      */
-    public function execute(string $expression)
+    public function execute($expression)
     {
         $cachekey = $expression;
         if (!array_key_exists($cachekey, $this->cache)) {
@@ -378,7 +378,7 @@ class MathExecutor
      * @return MathExecutor
      * @throws ReflectionException
      */
-    public function addFunction(string $name, ?callable $function = null, ?int $places = null) : self
+    public function addFunction($name, callable $function = null, $places = null)
     {
         $this->functions[$name] = new CustomFunction($name, $function, $places);
         return $this;
@@ -389,7 +389,7 @@ class MathExecutor
      *
      * @return array
      */
-    protected function defaultVars() : array
+    protected function defaultVars()
     {
         return [
             'pi' => 3.14159265359,
@@ -402,7 +402,7 @@ class MathExecutor
      *
      * @return array
      */
-    public function getVars() : array
+    public function getVars()
     {
         return $this->variables;
     }
@@ -429,7 +429,7 @@ class MathExecutor
      * @param  integer|float $value
      * @return MathExecutor
      */
-    public function setVar(string $variable, $value) : self
+    public function setVar(string $variable, $value)
     {
         if (!is_scalar($value)) {
             $type = gettype($value);
@@ -448,7 +448,7 @@ class MathExecutor
      * @return MathExecutor
      * @throws \Exception
      */
-    public function setVars(array $variables, bool $clear = true) : self
+    public function setVars(array $variables, $clear = true)
     {
         if ($clear) {
             $this->removeVars();
@@ -467,7 +467,7 @@ class MathExecutor
      *
      * @return MathExecutor
      */
-    public function setVarNotFoundHandler(callable $handler): self
+    public function setVarNotFoundHandler(callable $handler)
     {
         $this->onVarNotFound = $handler;
         return $this;
@@ -479,7 +479,7 @@ class MathExecutor
      * @param  string $variable
      * @return MathExecutor
      */
-    public function removeVar(string $variable) : self
+    public function removeVar(string $variable)
     {
         unset($this->variables[$variable]);
         return $this;
@@ -489,7 +489,7 @@ class MathExecutor
      * Remove all variables and the variable not found handler
      * @return MathExecutor
      */
-    public function removeVars() : self
+    public function removeVars()
     {
         $this->variables = [];
         $this->onVarNotFound = null;
@@ -512,7 +512,7 @@ class MathExecutor
      * @return array containing callback and places indexed by
      *         function name
      */
-    public function getFunctions() : array
+    public function getFunctions()
     {
         return $this->functions;
     }
@@ -522,7 +522,7 @@ class MathExecutor
      *
      * @return MathExecutor
      */
-    public function setDivisionByZeroIsZero() : self
+    public function setDivisionByZeroIsZero()
     {
         $this->addOperator(new Operator("/", false, 180, function ($a, $b) {
             if ($b == 0) {

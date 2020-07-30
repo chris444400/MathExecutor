@@ -50,7 +50,7 @@ class Operator
         $this->places = $reflection->getNumberOfParameters();
     }
 
-    public function execute(array &$stack) : Token
+    public function execute(array &$stack)
     {
         if (count($stack) < $this->places) {
             throw new IncorrectExpressionException();
