@@ -71,7 +71,7 @@ class Calculator
                 }
 
                 $stack[] = new Token(Token::Literal, $value);
-            } elseif ($token->type === Token::Function) {
+            } elseif ($token->type === Token::Func) {
                 if (!array_key_exists($token->value, $this->functions)) {
                     throw new UnknownFunctionException($token->value);
                 }

@@ -66,7 +66,7 @@ class Tokenizer
         $this->operators = $operators;
     }
 
-    public function tokenize() : self
+    public function tokenize()
     {
         foreach (str_split($this->input, 1) as $ch) {
             switch (true) {
@@ -128,7 +128,7 @@ class Tokenizer
                     break;
                 case $this->isLP($ch):
                     if ($this->stringBuffer != "") {
-                        $this->tokens[] = new Token(Token::Function, $this->stringBuffer);
+                        $this->tokens[] = new Token(Token::Func, $this->stringBuffer);
                         $this->stringBuffer = "";
                     } elseif ($this->numberBuffer != "") {
                         $this->emptyNumberBufferAsLiteral();
@@ -176,17 +176,17 @@ class Tokenizer
         return $this;
     }
 
-    private function isNumber(string $ch) : bool
+    private function isNumber($ch)
     {
         return $ch >= '0' && $ch <= '9';
     }
 
-    private function isAlpha(string $ch) : bool
+    private function isAlpha($ch)
     {
         return $ch >= 'a' && $ch <= 'z' || $ch >= 'A' && $ch <= 'Z' || $ch == '_';
     }
 
-    private function emptyNumberBufferAsLiteral() : void
+    private function emptyNumberBufferAsLiteral()
     {
         if ($this->numberBuffer != "") {
             $this->tokens[] = new Token(Token::Literal, $this->numberBuffer);
@@ -194,22 +194,22 @@ class Tokenizer
         }
     }
 
-    private function isDot(string $ch) : bool
+    private function isDot($ch)
     {
         return $ch == '.';
     }
 
-    private function isLP(string $ch) : bool
+    private function isLP($ch)
     {
         return $ch == '(';
     }
 
-    private function isRP(string $ch) : bool
+    private function isRP($ch)
     {
         return $ch == ')';
     }
 
-    private function emptyStrBufferAsVariable() : void
+    private function emptyStrBufferAsVariable()
     {
         if ($this->stringBuffer != "") {
             $this->tokens[] = new Token(Token::Variable, $this->stringBuffer);
@@ -217,7 +217,7 @@ class Tokenizer
         }
     }
 
-    private function isComma(string $ch) : bool
+    private function isComma($ch)
     {
         return $ch == ',';
     }
@@ -227,7 +227,7 @@ class Tokenizer
      * @throws IncorrectBracketsException
      * @throws UnknownOperatorException
      */
-    public function buildReversePolishNotation() : array
+    public function buildReversePolishNotation()
     {
         $tokens = [];
         /** @var SplStack<Token> $stack */
@@ -239,7 +239,7 @@ class Tokenizer
                 case Token::String:
                     $tokens[] = $token;
                     break;
-                case Token::Function:
+                case Token::Func:
                 case Token::LeftParenthesis:
                     $stack->push($token);
                     break;
@@ -281,7 +281,7 @@ class Tokenizer
                             throw new IncorrectBracketsException();
                         }
                     }
-                    if ($stack->count() > 0 && $stack->top()->type == Token::Function) {
+                    if ($stack->count() > 0 && $stack->top()->type == Token::Func) {
                         $tokens[] = $stack->pop();
                     }
                     break;

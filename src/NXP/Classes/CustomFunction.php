@@ -32,7 +32,7 @@ class CustomFunction
      * @throws ReflectionException
      * @throws IncorrectNumberOfFunctionParametersException
      */
-    public function __construct(string $name, callable $function, ?int $places = null)
+    public function __construct(string $name, callable $function, $places = null)
     {
         $this->name = $name;
         $this->function = $function;
@@ -44,7 +44,7 @@ class CustomFunction
         }
     }
 
-    public function execute(array &$stack) : Token
+    public function execute(array &$stack)
     {
         if (count($stack) < $this->places) {
             throw new IncorrectNumberOfFunctionParametersException($this->name);
