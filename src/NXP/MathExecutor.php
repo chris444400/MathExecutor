@@ -378,6 +378,7 @@ class MathExecutor
      * @return MathExecutor
      * @throws ReflectionException
      */
+
     public function addFunction($name, callable $function = null, $places = null)
     {
         $this->functions[$name] = new CustomFunction($name, $function, $places);
